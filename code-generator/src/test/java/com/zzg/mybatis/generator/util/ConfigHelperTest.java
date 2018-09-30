@@ -1,6 +1,7 @@
 package com.zzg.mybatis.generator.util;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Created by zouzhigang on 2016/9/18.
  */
+@Ignore
 public class ConfigHelperTest {
 
     @Test

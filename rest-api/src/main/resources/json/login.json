@@ -1,0 +1,20 @@
+{
+	"code": "SUCCESS",
+	"message": "11",
+	"data": {
+		"sessionId": "38cf88266d4c4ee7a9ef727885e15352",
+		"username": "AB000000",
+		"roleMc": [
+			{
+				"id": "100001",
+				"missionName": "管理员1",
+				"selected": true
+			}, {
+				"id": "100002",
+				"missionName": "管理员2"
+			}
+		],
+		"lamp":{"100001":["b1","c1"],"100002":["a1","c1"]}
+	}
+}
+

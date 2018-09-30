@@ -1,0 +1,71 @@
+{
+	"code": "SUCCESS",
+	"message": "11",
+	"data": {
+		"menutree": [
+			{
+				"sort": 0,
+				"name": "权限管理",
+				"icon": "sty-icon1",
+				"treedata": [
+					{
+						"sort": 1,
+						"name": "角色管理",
+						"icon": "sty-icon-empty",
+						"href": "roleMgt.html"
+					}, {
+						"sort": 12,
+						"icon": "sty-icon-empty",
+						"name": "用户角色映射",
+						"href": "roleMap.html"
+					}
+				]
+			}, {
+				"id": "21",
+				"name": "业务管理",
+				"icon": "sty-icon1",
+				"sort": 2,
+				"treedata": [
+					{
+						"sort": 21,
+						"icon": "sty-icon-empty",
+						"name": "业务规则控制",
+						"href": "businessMgt.html"
+					}
+				]
+			}, {
+				"id": "31",
+				"name": "平台管理",
+				"icon": "sty-icon1",
+				"sort": 3,
+				"treedata": [
+					{
+						"sort": 31,
+						"name": "租户管理",
+						"icon": "sty-icon-empty",
+						"href": "lesseeMgt.html"
+					}
+				]
+			}, {
+				"id": "122",
+				"name": "批处理管理",
+				"icon": "sty-icon1",
+				"sort": 4,
+				"treedata": [
+					{
+						"sort": 11,
+						"name": "基本任务定制",
+						"icon": "sty-icon-empty",
+						"href": "baseMade.html"
+					}, {
+						"sort": 12,
+						"name": "执行计划定制",
+						"icon": "sty-icon-empty",
+						"href": "doitMade.html"
+					}
+				]
+			}
+		]
+	}
+}
+

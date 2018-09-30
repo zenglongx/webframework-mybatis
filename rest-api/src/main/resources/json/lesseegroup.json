@@ -1,0 +1,16 @@
+{
+  "code":"SUCCESS",
+  "message":"11",
+  "data":{
+    "lesseeMc":[
+      {
+        "id":"100001",
+        "missionName":"租户1",
+        "selected":true
+      },{
+        "id":"100002",
+        "missionName":"组户2"
+      }
+    ]
+  }
+}
