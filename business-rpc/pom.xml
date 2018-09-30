@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>business-rpc</artifactId>
+    <artifactId>webframework-business-rpc</artifactId>
 
 
 </project>
