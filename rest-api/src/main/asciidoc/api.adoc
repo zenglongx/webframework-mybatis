@@ -1,0 +1,16 @@
+= API 接口文档
+zenglongx
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+== index
+operation::index[snippets='curl-request,http-response']
+
+== login
+operation::login[snippets='curl-request,http-response']

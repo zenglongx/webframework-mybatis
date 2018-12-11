@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Slf4j
 public class HomeController {
 
-    @Autowired
+    @Autowired(required = false)
     ProductService productService;
 
     // 缓存json数据
@@ -73,5 +74,11 @@ public class HomeController {
         }
         return "";
     }
+
+    @GetMapping("/")
+    public Map<String, Object> greeting() {
+        return Collections.singletonMap("message", "Hello World");
+    }
+
 }
 

@@ -1,6 +1,7 @@
 package com.xx.webframework.rabbit;
 
 import com.xx.webframework.Application;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -10,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
+@Ignore
 public class RabbitTest {
     @Autowired
     private AmqpTemplate amqpTemplate;

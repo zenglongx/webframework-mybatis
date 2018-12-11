@@ -20,7 +20,7 @@ CREATE TABLE `product` (
   `pic_large` VARCHAR(255) NULL DEFAULT NULL COMMENT '商品图片-大',
   `description` MEDIUMTEXT NULL DEFAULT NULL COMMENT '商品描述',
   PRIMARY KEY (`id`)
-) COMMENT '商品';
+);
 
 -- ---
 -- Foreign Keys
@@ -37,5 +37,5 @@ CREATE TABLE `product` (
 -- Test Data
 -- ---
 
--- INSERT INTO `product` (`id`,`name`,`pic_small`,`pic_middle`,`pic_large`,`description`) VALUES
--- ('','','','','','');
+INSERT INTO `product` (`id`,`name`,`pic_small`,`pic_middle`,`pic_large`,`description`) VALUES
+('1','扫地机器人','pic_small','pic_middle','pic_large','description');
