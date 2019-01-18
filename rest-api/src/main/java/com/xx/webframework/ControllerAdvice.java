@@ -1,6 +1,10 @@
 package com.xx.webframework;
 
+import com.xx.webframework.restapi.common.ApiErrorCode;
+import com.xx.webframework.restapi.common.ApiException;
+import com.xx.webframework.restapi.common.ResponseData;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -45,8 +49,17 @@ public class ControllerAdvice {
      * @return
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handle(Exception ex) {
+    public ResponseData handle(Exception ex) {
         log.error("",ex);
-        return ResponseEntity.badRequest().body("error");
+        ResponseData responseData = new ResponseData();
+        if(ex instanceof ApiException) {
+            ApiException apiException = (ApiException) ex;
+            responseData.setCode(apiException.getErrorCode());
+            responseData.setMessaage(apiException.getErrorMessage());
+        }else{
+            responseData.setCode(ResponseData.ERROR);
+            responseData.setMessaage("未知错误");
+        }
+        return responseData;
     }
 }

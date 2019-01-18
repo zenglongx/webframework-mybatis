@@ -38,7 +38,7 @@ public class RestApiApplication implements CommandLineRunner {
 			rs = dbMetaData.getTables(null, null, "product", new String[]{"TABLE"});
 			if (!rs.next()) {
 				System.out.println("@@@@@@@@@@  init DB  @@@@@@@@@@");
-				jdbcTemplate.execute(FileUtils.readString(ResourceUtils.getFile("../doc/db.sql")));
+				jdbcTemplate.execute(FileUtils.readString(ResourceUtils.getFile("./doc/db.sql")));
 				System.out.println("@@@@@@@@@@  init DB finish @@@@@@@@@@");
 			}
 		}catch (Exception e){

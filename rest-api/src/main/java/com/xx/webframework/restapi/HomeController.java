@@ -1,23 +1,21 @@
 package com.xx.webframework.restapi;
 
 import com.github.pagehelper.Page;
-import com.xx.webframework.domain.Product;
+import com.xx.webframework.restapi.common.ApiException;
+import com.xx.webframework.restapi.common.ResponseData;
+import com.xx.webframework.restapi.common.UserNotFoundApiException;
 import com.xx.webframework.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ResourceLoaderAware;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @RestController
 @Slf4j
@@ -30,11 +28,21 @@ public class HomeController {
     private Map<String,String> cacheMap = new ConcurrentHashMap<>();
 
     @RequestMapping(method = RequestMethod.GET,value = "/product/list")
-    public List<Product> getProductList(){
-//        return productService.findAll();
+    public ResponseData getProductList(){
+
+        ResponseData responseData = new ResponseData();
+        responseData.setCode(ResponseData.SUCCESS);
+        responseData.setMessaage("操作成功");
         int pageNum = 1;
         int pageSize = 10;
-        return productService.getProductPage(new Page(pageNum,pageSize));
+        responseData.setData(productService.getProductPage(new Page(pageNum,pageSize)));
+
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/exception")
+    public ResponseData getProductList2(){
+        throw new UserNotFoundApiException();
     }
 
     /**

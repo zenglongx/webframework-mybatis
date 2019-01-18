@@ -7,6 +7,7 @@ import com.xx.webframework.domain.ProductExample;
 import com.xx.webframework.mapper.ProductDAO;
 import com.xx.webframework.mapper.ProductDAOSelf;
 import com.xx.webframework.service.ProductService;
+import com.xx.webframework.service.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductPage(Page page) {
-        ProductExample productExample = new ProductExample();
-        PageHelper.startPage(page.getPageNum(),page.getPageSize());
-        return productDAO.selectByExample(productExample);
+//        ProductExample productExample = new ProductExample();
+//        PageHelper.startPage(page.getPageNum(),page.getPageSize());
+//        return productDAO.selectByExample(productExample);
+
+        throw new UserNotFoundException("用户未查找到");
     }
 }
