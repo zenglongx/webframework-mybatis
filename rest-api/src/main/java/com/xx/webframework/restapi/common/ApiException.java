@@ -10,4 +10,5 @@ import lombok.Setter;
 public class ApiException extends RuntimeException {
     private String errorCode;
     private String errorMessage;
+    private Object data;
 }
