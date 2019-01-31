@@ -1,12 +1,16 @@
 package com.xx.webframework.restapi;
 
 import com.github.pagehelper.Page;
-import com.xx.webframework.restapi.common.ApiException;
+import com.google.common.collect.Maps;
 import com.xx.webframework.restapi.common.ResponseData;
 import com.xx.webframework.restapi.common.UserNotFoundApiException;
 import com.xx.webframework.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +36,7 @@ public class HomeController {
 
         ResponseData responseData = new ResponseData();
         responseData.setCode(ResponseData.SUCCESS);
-        responseData.setMessaage("操作成功");
+        responseData.setMessage("操作成功");
         int pageNum = 1;
         int pageSize = 10;
         responseData.setData(productService.getProductPage(new Page(pageNum,pageSize)));
@@ -88,5 +92,26 @@ public class HomeController {
         return Collections.singletonMap("message", "Hello World");
     }
 
+
+    @RequestMapping(method = RequestMethod.POST,value = "/login")
+    @ResponseBody
+    public ResponseData doLogin(String username,String password){
+
+        ResponseData responseData = new ResponseData();
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.login(token);
+            responseData.setCode(ResponseData.SUCCESS);
+        } catch (AuthenticationException e) {
+            responseData.setCode(ResponseData.ERROR);
+        }
+        Map<String,String> udata = Maps.newHashMap();
+        udata.put("uuid","uuid");
+        udata.put("token","token");
+        udata.put("name","张三");
+        responseData.setData(udata);
+        return responseData;
+    }
 }
 

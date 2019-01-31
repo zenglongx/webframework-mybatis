@@ -32,11 +32,13 @@ public class User implements Serializable {
 
     private Byte isForbidden;
 
-    private Byte isDelete;
+    private Byte status;
 
     private Date createTime;
 
     private Date updateTime;
+
+    private Role role;
 
     private static final long serialVersionUID = 1L;
 
@@ -136,12 +138,12 @@ public class User implements Serializable {
         this.isForbidden = isForbidden;
     }
 
-    public Byte getIsDelete() {
-        return isDelete;
+    public Byte getStatus() {
+        return status;
     }
 
-    public void setIsDelete(Byte isDelete) {
-        this.isDelete = isDelete;
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 
     public Date getCreateTime() {
@@ -158,6 +160,14 @@ public class User implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
@@ -184,7 +194,7 @@ public class User implements Serializable {
             && (this.getLastTime() == null ? other.getLastTime() == null : this.getLastTime().equals(other.getLastTime()))
             && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()))
             && (this.getIsForbidden() == null ? other.getIsForbidden() == null : this.getIsForbidden().equals(other.getIsForbidden()))
-            && (this.getIsDelete() == null ? other.getIsDelete() == null : this.getIsDelete().equals(other.getIsDelete()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
     }
@@ -205,7 +215,7 @@ public class User implements Serializable {
         result = prime * result + ((getLastTime() == null) ? 0 : getLastTime().hashCode());
         result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
         result = prime * result + ((getIsForbidden() == null) ? 0 : getIsForbidden().hashCode());
-        result = prime * result + ((getIsDelete() == null) ? 0 : getIsDelete().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         return result;
@@ -229,7 +239,7 @@ public class User implements Serializable {
         sb.append(", lastTime=").append(lastTime);
         sb.append(", roleId=").append(roleId);
         sb.append(", isForbidden=").append(isForbidden);
-        sb.append(", isDelete=").append(isDelete);
+        sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);

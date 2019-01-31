@@ -3,10 +3,11 @@
 <mapper namespace="com.xx.webframework.mapper.PermissionDAO">
   <resultMap id="BaseResultMap" type="com.xx.webframework.domain.Permission">
     <id column="permission_id" jdbcType="INTEGER" property="permissionId" />
-    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    permission_id, `name`, create_time, update_time, `type`
+    permission_id, `name`, `type`, create_time, update_time, code
   </sql>
   <select id="selectByExample" parameterType="com.xx.webframework.domain.PermissionExample" resultMap="BaseResultMap">
     select
@@ -108,10 +109,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.xx.webframework.domain.Permission">
-    insert into permission (permission_id, `name`, create_time, 
-      update_time, `type`)
-    values (#{permissionId,jdbcType=INTEGER}, #{name,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{type,jdbcType=TINYINT})
+    insert into permission (permission_id, `name`, `type`, 
+      create_time, update_time, code
+      )
+    values (#{permissionId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xx.webframework.domain.Permission">
     insert into permission
@@ -122,14 +125,17 @@
       <if test="name != null">
         `name`,
       </if>
+      <if test="type != null">
+        `type`,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="type != null">
-        `type`,
+      <if test="code != null">
+        code,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -137,7 +143,10 @@
         #{permissionId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
-        #{name,jdbcType=CHAR},
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -145,8 +154,8 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -163,7 +172,10 @@
         permission_id = #{record.permissionId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
-        `name` = #{record.name,jdbcType=CHAR},
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        `type` = #{record.type,jdbcType=TINYINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -171,8 +183,8 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.type != null">
-        `type` = #{record.type,jdbcType=TINYINT},
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -182,10 +194,11 @@
   <update id="updateByExample" parameterType="map">
     update permission
     set permission_id = #{record.permissionId,jdbcType=INTEGER},
-      `name` = #{record.name,jdbcType=CHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      `type` = #{record.type,jdbcType=TINYINT}
+      code = #{record.code,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -194,7 +207,10 @@
     update permission
     <set>
       <if test="name != null">
-        `name` = #{name,jdbcType=CHAR},
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -202,18 +218,19 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="type != null">
-        `type` = #{type,jdbcType=TINYINT},
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
       </if>
     </set>
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xx.webframework.domain.Permission">
     update permission
-    set `name` = #{name,jdbcType=CHAR},
+    set `name` = #{name,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      `type` = #{type,jdbcType=TINYINT}
+      code = #{code,jdbcType=VARCHAR}
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </update>
 </mapper>

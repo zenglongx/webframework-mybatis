@@ -145,24 +145,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xx.webframework.domain.SysLogWithBLOBs">
-    insert into sys_log (log_id, `level`, `path`, 
-      message, ip, user_agent, 
-      referer, user_id, username, 
-      create_time, `get`, post
-      )
-    values (#{logId,jdbcType=INTEGER}, #{level,jdbcType=TINYINT}, #{path,jdbcType=VARCHAR}, 
-      #{message,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}, 
-      #{referer,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{get,jdbcType=LONGVARCHAR}, #{post,jdbcType=LONGVARCHAR}
-      )
+  <insert id="insert" keyColumn="log_id" keyProperty="logId" parameterType="com.xx.webframework.domain.SysLogWithBLOBs" useGeneratedKeys="true">
+    insert into sys_log (`level`, `path`, message, 
+      ip, user_agent, referer, 
+      user_id, username, create_time, 
+      `get`, post)
+    values (#{level,jdbcType=TINYINT}, #{path,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}, #{referer,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{get,jdbcType=LONGVARCHAR}, #{post,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.xx.webframework.domain.SysLogWithBLOBs">
+  <insert id="insertSelective" keyColumn="log_id" keyProperty="logId" parameterType="com.xx.webframework.domain.SysLogWithBLOBs" useGeneratedKeys="true">
     insert into sys_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="logId != null">
-        log_id,
-      </if>
       <if test="level != null">
         `level`,
       </if>
@@ -198,9 +193,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="logId != null">
-        #{logId,jdbcType=INTEGER},
-      </if>
       <if test="level != null">
         #{level,jdbcType=TINYINT},
       </if>

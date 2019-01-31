@@ -9,6 +9,6 @@ public class ResponseData {
     public static final String ERROR = "-1";
 
     private String code;
-    private String messaage;
+    private String message;
     private Object data;
 }

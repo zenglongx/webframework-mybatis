@@ -1,12 +1,9 @@
 package com.xx.webframework;
 
-import com.xx.webframework.restapi.common.ApiErrorCode;
 import com.xx.webframework.restapi.common.ApiException;
 import com.xx.webframework.restapi.common.ResponseData;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -55,10 +52,10 @@ public class ControllerAdvice {
         if(ex instanceof ApiException) {
             ApiException apiException = (ApiException) ex;
             responseData.setCode(apiException.getErrorCode());
-            responseData.setMessaage(apiException.getErrorMessage());
+            responseData.setMessage(apiException.getErrorMessage());
         }else{
             responseData.setCode(ResponseData.ERROR);
-            responseData.setMessaage("未知错误");
+            responseData.setMessage("未知错误");
         }
         return responseData;
     }

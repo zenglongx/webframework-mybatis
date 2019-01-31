@@ -12,13 +12,15 @@ public class Role implements Serializable {
 
     private String name;
 
-    private Byte type;
+    private String code;
 
-    private Byte isDelete;
+    private Byte status;
 
     private Date createTime;
 
     private Date updateTime;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -38,20 +40,20 @@ public class Role implements Serializable {
         this.name = name;
     }
 
-    public Byte getType() {
-        return type;
+    public String getCode() {
+        return code;
     }
 
-    public void setType(Byte type) {
-        this.type = type;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public Byte getIsDelete() {
-        return isDelete;
+    public Byte getStatus() {
+        return status;
     }
 
-    public void setIsDelete(Byte isDelete) {
-        this.isDelete = isDelete;
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 
     public Date getCreateTime() {
@@ -70,6 +72,14 @@ public class Role implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -84,10 +94,11 @@ public class Role implements Serializable {
         Role other = (Role) that;
         return (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-            && (this.getIsDelete() == null ? other.getIsDelete() == null : this.getIsDelete().equals(other.getIsDelete()))
+            && (this.getCode() == null ? other.getCode() == null : this.getCode().equals(other.getCode()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()));
     }
 
     @Override
@@ -96,10 +107,11 @@ public class Role implements Serializable {
         int result = 1;
         result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
-        result = prime * result + ((getIsDelete() == null) ? 0 : getIsDelete().hashCode());
+        result = prime * result + ((getCode() == null) ? 0 : getCode().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         return result;
     }
 
@@ -111,10 +123,11 @@ public class Role implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", roleId=").append(roleId);
         sb.append(", name=").append(name);
-        sb.append(", type=").append(type);
-        sb.append(", isDelete=").append(isDelete);
+        sb.append(", code=").append(code);
+        sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

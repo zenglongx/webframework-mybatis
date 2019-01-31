@@ -43,54 +43,57 @@ INSERT INTO `product` (`id`,`name`,`pic_small`,`pic_middle`,`pic_large`,`descrip
 
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
-  `permission_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(30) DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  `type` tinyint(4) DEFAULT '1' COMMENT '1=菜单；2=权限',
+  `permission_id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NULL DEFAULT NULL,
+  `type` tinyint NULL DEFAULT 1 COMMENT '1=菜单；2=控制器; 3=操作',
+  `create_time` datetime NULL DEFAULT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
+  `code` varchar(30) NULL DEFAULT NULL,
   PRIMARY KEY (`permission_id`)
 );
+
 
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
-INSERT INTO `permission` VALUES ('1', '/index', null, null, '1');
-INSERT INTO `permission` VALUES ('2', '/user/list', null, null, '1');
-INSERT INTO `permission` VALUES ('3', '/user/edit', null, null, '1');
-INSERT INTO `permission` VALUES ('4', '/user/save', null, null, '1');
-INSERT INTO `permission` VALUES ('5', '/user/delete', null, null, '1');
-INSERT INTO `permission` VALUES ('6', '/user/detail', null, null, '1');
-INSERT INTO `permission` VALUES ('7', '/role/list', null, null, '1');
-INSERT INTO `permission` VALUES ('8', '/role/edit', null, null, '1');
-INSERT INTO `permission` VALUES ('9', '/role/save', null, null, '1');
-INSERT INTO `permission` VALUES ('10', '/role/delete', null, null, '1');
-INSERT INTO `permission` VALUES ('11', '/role/list', null, null, '1');
-INSERT INTO `permission` VALUES ('12', '/permission/list', null, null, '1');
-INSERT INTO `permission` VALUES ('13', '/permission/edit', null, null, '1');
-INSERT INTO `permission` VALUES ('14', '/permission/save', null, null, '1');
-INSERT INTO `permission` VALUES ('15', '/permission/delete', null, null, '1');
-INSERT INTO `permission` VALUES ('16', '/permission/detail', null, null, '1');
-INSERT INTO `permission` VALUES ('17', '/dashboard', null, null, '1');
+INSERT INTO `permission` VALUES ('1', '/index', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('2', '/user/list',1, null, null, '1');
+INSERT INTO `permission` VALUES ('3', '/user/edit', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('4', '/user/save', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('5', '/user/delete', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('6', '/user/detail', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('7', '/role/list', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('8', '/role/edit', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('9', '/role/save', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('10', '/role/delete', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('11', '/role/list', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('12', '/permission/list', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('13', '/permission/edit', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('14', '/permission/save', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('15', '/permission/delete', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('16', '/permission/detail', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('17', '/dashboard', 1,null, null, '1');
 
 -- ----------------------------
 -- Table structure for `role`
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
-  `role_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(10) DEFAULT NULL,
-  `type` tinyint(4) DEFAULT NULL,
-  `is_delete` tinyint(4) DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
+  `role_id` int NOT NULL AUTO_INCREMENT,
+  `name` char(10) NULL DEFAULT NULL,
+  `code` varchar(30) NULL DEFAULT NULL,
+  `status` tinyint NULL DEFAULT NULL,
+  `create_time` datetime NULL DEFAULT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
+  `remark` varchar(255) NULL DEFAULT NULL,
   PRIMARY KEY (`role_id`)
 );
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES ('1', 'admin', null, null, null, null);
-INSERT INTO `role` VALUES ('2', 'guest', null, null, null, null);
+INSERT INTO `role` VALUES ('1', 'admin', 'admin', null, null, null, null);
+INSERT INTO `role` VALUES ('2', 'guest', 'admin', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `role_permission`
@@ -154,21 +157,21 @@ CREATE TABLE `sys_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) DEFAULT NULL,
-  `password` varchar(20) DEFAULT NULL,
-  `real_name` varchar(50) DEFAULT NULL,
-  `mobile` char(13) DEFAULT NULL,
-  `phone` char(13) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `department` char(50) DEFAULT NULL,
-  `position` char(50) DEFAULT NULL,
-  `last_time` datetime DEFAULT NULL,
-  `role_id` int(11) DEFAULT NULL,
-  `is_forbidden` tinyint(4) DEFAULT NULL,
-  `is_delete` tinyint(4) DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) NULL DEFAULT NULL,
+  `password` varchar(20) NULL DEFAULT NULL,
+  `real_name` varchar(50) NULL DEFAULT NULL,
+  `mobile` char(13) NULL DEFAULT NULL,
+  `phone` char(13) NULL DEFAULT NULL,
+  `email` varchar(50) NULL DEFAULT NULL,
+  `department` char(50) NULL DEFAULT NULL,
+  `position` char(50) NULL DEFAULT NULL,
+  `last_time` datetime NULL DEFAULT NULL,
+  `role_id` int NULL DEFAULT NULL,
+  `is_forbidden` tinyint NULL DEFAULT NULL,
+  `status` tinyint NULL DEFAULT NULL,
+  `create_time` datetime NULL DEFAULT NULL,
+  `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 );
 
@@ -177,3 +180,19 @@ CREATE TABLE `user` (
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', 'admin', 'admin', '管理员', null, null, null, null, null, null, '1', null, null, null, null);
 INSERT INTO `user` VALUES ('2', 'guest', 'guest', '访客', null, null, null, null, null, null, '2', null, null, null, null);
+
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE `menu` (
+  `menu_id` int NOT NULL AUTO_INCREMENT,
+  `parent_id` int NULL DEFAULT NULL,
+  `name` varchar(32) NULL DEFAULT NULL,
+  `url` varchar(127) NULL DEFAULT NULL,
+  `icon` varchar(64) NULL DEFAULT NULL,
+  `sort` tinyint NULL DEFAULT 0,
+  `status` tinyint NULL DEFAULT 1,
+  `permission_id` int NULL DEFAULT NULL,
+  `permission_name` varchar(30) NULL DEFAULT NULL,
+  PRIMARY KEY (`menu_id`)
+);
+
+INSERT INTO `menu` VALUES ('0', '0', '管理后台', null, null, 0, 1, null, null);

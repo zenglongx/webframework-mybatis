@@ -105,18 +105,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xx.webframework.domain.RolePermission">
-    insert into role_permission (id, role_id, permission_id
-      )
-    values (#{id,jdbcType=TINYINT}, #{roleId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER}
-      )
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.xx.webframework.domain.RolePermission" useGeneratedKeys="true">
+    insert into role_permission (role_id, permission_id)
+    values (#{roleId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.xx.webframework.domain.RolePermission">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.xx.webframework.domain.RolePermission" useGeneratedKeys="true">
     insert into role_permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="roleId != null">
         role_id,
       </if>
@@ -125,9 +120,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=TINYINT},
-      </if>
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
       </if>

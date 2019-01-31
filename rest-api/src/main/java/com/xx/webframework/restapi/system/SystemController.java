@@ -1,13 +1,20 @@
 package com.xx.webframework.restapi.system;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.xx.webframework.domain.*;
 import com.xx.webframework.mapper.*;
 import com.xx.webframework.restapi.common.ApiException;
 import com.xx.webframework.restapi.common.ResponseData;
+import com.xx.webframework.restapi.common.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +34,8 @@ public class SystemController {
     @Autowired
     private SysLogDAO sysLogDAO;
     @Autowired
+    private MenuDAO menuDAO;
+    @Autowired
     private RolePermissionDAOSelf rolePermissionDAOSelf;
 
     /**
@@ -35,9 +44,75 @@ public class SystemController {
      */
 
     @RequestMapping(method = RequestMethod.GET,value = "/user/list")
-    public ResponseData getUserList(){
+    public ResponseData getUserList(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
+                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum ){
         ResponseData responseData = new ResponseData();
-        responseData.setData(userDAO.selectByExample(null));
+        List<User> users = null;
+        PageHelper.startPage(pageNum,10);
+        if(StringUtils.isBlank(searchKey)) {
+            users = userDAO.selectByExample(null);
+        }else{
+            UserExample userExample = new UserExample();
+            userExample.createCriteria()
+                    .andUsernameLike(String.format("%%%s%%",searchKey));
+            userExample.or().andRealNameLike(String.format("%%%s%%",searchKey));
+            users = userDAO.selectByExample(userExample);
+        }
+        users.forEach(user -> {
+            user.setRole(roleDAO.selectByPrimaryKey(user.getRoleId()));
+        });
+        responseData.setData(new PageInfo(users));
+        responseData.setCode(ResponseData.SUCCESS);
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/user/all")
+    public ResponseData getAllUser(){
+        ResponseData responseData = new ResponseData();
+        List<User> users = userDAO.selectByExample(null);
+        responseData.setData(users);
+        responseData.setCode(ResponseData.SUCCESS);
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/user/queryByRoleId")
+    public ResponseData getUserListByRoleId(@RequestParam("roleId") Integer roleId){
+        Preconditions.checkArgument(roleId != null && roleId >= 0);
+        ResponseData responseData = new ResponseData();
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andRoleIdEqualTo(roleId);
+        List<User> users = userDAO.selectByExample(userExample);
+        responseData.setData(users);
+        responseData.setCode(ResponseData.SUCCESS);
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/user/updateUserRole",
+            consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseData updateUserRole(@RequestBody JsonNode roleUserJson){
+        Preconditions.checkArgument(roleUserJson.hasNonNull("roleId")
+                                && roleUserJson.hasNonNull("userIds"));
+        int roleId = roleUserJson.get("roleId").asInt();
+        List<Integer> userIdList = Lists.newArrayList();
+        roleUserJson.get("userIds").forEach( userId -> {
+           userIdList.add(userId.asInt());
+        });
+
+        UserExample updateCondition = new UserExample();
+        updateCondition.createCriteria().andRoleIdEqualTo(roleId);
+        User updateUser = new User();
+        // 将角色ID更新为0
+        updateUser.setRoleId(0);
+        userDAO.updateByExampleSelective(updateUser,updateCondition);
+
+        User updateUser2 = new User();
+        // 将角色ID更新为最新值
+        updateUser2.setRoleId(roleId);
+        UserExample updateCondition2 = new UserExample();
+        updateCondition2.createCriteria().andUserIdIn(userIdList);
+        userDAO.updateByExampleSelective(updateUser2,updateCondition2);
+
+        ResponseData responseData = new ResponseData();
         responseData.setCode(ResponseData.SUCCESS);
         return responseData;
     }
@@ -51,15 +126,18 @@ public class SystemController {
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/user/save")
-    public ResponseData saveUser(User user){
+    public ResponseData saveUser(@RequestBody User user){
         ResponseData responseData = new ResponseData();
-        if(user.getUserId() != 0) {
-            userDAO.updateByPrimaryKey(user);
-        }else{
+        if(user.getUserId() == null || user.getUserId() == 0) {
+            user.setCreateTime(DateUtils.now());
             userDAO.insert(user);
+        }else{
+            user.setUpdateTime(DateUtils.now());
+            userDAO.updateByPrimaryKey(user);
         }
         responseData.setCode(ResponseData.SUCCESS);
-        responseData.setMessaage("操作成功");
+        responseData.setMessage("操作成功");
+        responseData.setData(user.getUserId());
         return responseData;
     }
 
@@ -76,7 +154,7 @@ public class SystemController {
         ResponseData responseData = new ResponseData();
         userDAO.deleteByPrimaryKey(userId);
         responseData.setCode(ResponseData.SUCCESS);
-        responseData.setMessaage("操作成功");
+        responseData.setMessage("操作成功");
         return responseData;
     }
 
@@ -86,9 +164,30 @@ public class SystemController {
      *   role manager
      */
     @RequestMapping(method = RequestMethod.GET,value = "/role/list")
-    public ResponseData getRoleList(){
+    public ResponseData getRoleList(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
+                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum ){
         ResponseData responseData = new ResponseData();
-        responseData.setData(roleDAO.selectByExample(null));
+        List<Role> roles = null;
+        PageHelper.startPage(pageNum,10);
+        if(StringUtils.isBlank(searchKey)) {
+            roles = roleDAO.selectByExample(null);
+        }else{
+            RoleExample roleExample = new RoleExample();
+            roleExample.createCriteria()
+                    .andNameLike(String.format("%%%s%%",searchKey));
+            roleExample.or().andCodeLike(String.format("%%%s%%",searchKey));
+            roles = roleDAO.selectByExample(roleExample);
+        }
+        responseData.setData(new PageInfo(roles));
+        responseData.setCode(ResponseData.SUCCESS);
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/role/all")
+    public ResponseData getAllRole(){
+        ResponseData responseData = new ResponseData();
+        List<Role> roles = roleDAO.selectByExample(null);
+        responseData.setData(roles);
         responseData.setCode(ResponseData.SUCCESS);
         return responseData;
     }
@@ -102,14 +201,17 @@ public class SystemController {
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/role/save")
-    public ResponseData saveRole(Role role){
+    public ResponseData saveRole(@RequestBody Role role){
         ResponseData responseData = new ResponseData();
-        if(role.getRoleId() != 0) {
-            roleDAO.updateByPrimaryKey(role);
-        }else{
+        if(role.getRoleId() == null || role.getRoleId() == 0) {
+            role.setCreateTime(DateUtils.now());
             roleDAO.insert(role);
+        }else{
+            role.setUpdateTime(DateUtils.now());
+            roleDAO.updateByPrimaryKey(role);
         }
         responseData.setCode(ResponseData.SUCCESS);
+        responseData.setData(role.getRoleId());
         return responseData;
     }
 
@@ -135,11 +237,31 @@ public class SystemController {
      *   permission manager
      */
 
-    @RequestMapping(method = RequestMethod.GET,value = "/permission/list")
-    public ResponseData getPermissionList(){
+    @RequestMapping(method = RequestMethod.GET,value = "/permission/all")
+    public ResponseData getAllPermission(){
 
         ResponseData responseData = new ResponseData();
         responseData.setData(permissionDAO.selectByExample(null));
+        responseData.setCode(ResponseData.SUCCESS);
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/permission/list")
+    public ResponseData getPermissionList(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
+                                    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum ){
+        ResponseData responseData = new ResponseData();
+        List<Permission> permissions = null;
+        PageHelper.startPage(pageNum,10);
+        if(StringUtils.isBlank(searchKey)) {
+            permissions = permissionDAO.selectByExample(null);
+        }else{
+            PermissionExample permissionExample = new PermissionExample();
+            permissionExample.createCriteria()
+                    .andNameLike(String.format("%%%s%%",searchKey));
+            permissionExample.or().andCodeLike(String.format("%%%s%%",searchKey));
+            permissions = permissionDAO.selectByExample(permissionExample);
+        }
+        responseData.setData(new PageInfo(permissions));
         responseData.setCode(ResponseData.SUCCESS);
         return responseData;
     }
@@ -154,14 +276,15 @@ public class SystemController {
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/permission/save")
-    public ResponseData savePermission(Permission permission){
+    public ResponseData savePermission(@RequestBody Permission permission){
         ResponseData responseData = new ResponseData();
-        if(permission.getPermissionId() != 0) {
-            permissionDAO.updateByPrimaryKey(permission);
-        }else{
+        if(permission.getPermissionId() == null || permission.getPermissionId() == 0) {
             permissionDAO.insert(permission);
+        }else{
+            permissionDAO.updateByPrimaryKey(permission);
         }
         responseData.setCode(ResponseData.SUCCESS);
+        responseData.setData(permission.getPermissionId());
         return responseData;
     }
 
@@ -178,6 +301,60 @@ public class SystemController {
 
         ResponseData responseData = new ResponseData();
         permissionDAO.deleteByPrimaryKey(permissionId);
+        responseData.setCode(ResponseData.SUCCESS);
+        return responseData;
+    }
+    /**
+     *
+     *   menu manager
+     */
+
+    @RequestMapping(method = RequestMethod.GET,value = "/menu/tree")
+    public ResponseData getMenuTree(){
+
+        ResponseData responseData = new ResponseData();
+        List<Menu> menus = menuDAO.selectByExample(null);
+        MenuTree menuTree = MenuTree.build(menus);
+        responseData.setCode(ResponseData.SUCCESS);
+        responseData.setData(menuTree);
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/menu/edit/{menuId}")
+    public ResponseData editMenu(@PathVariable("menuId") int menuId){
+
+        ResponseData responseData = new ResponseData();
+        responseData.setData(menuDAO.selectByPrimaryKey(menuId));
+        responseData.setCode(ResponseData.SUCCESS);
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/menu/save")
+    public ResponseData saveMenu(@RequestBody Menu menu){
+        ResponseData responseData = new ResponseData();
+        if(menu.getMenuId() == null || menu.getMenuId() == 0) {
+            menuDAO.insert(menu);
+        }else{
+            menuDAO.updateByPrimaryKey(menu);
+        }
+        responseData.setCode(ResponseData.SUCCESS);
+        responseData.setData(menu.getMenuId());
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/menu/detail/{menuId}")
+    public ResponseData getMenuInfo(@PathVariable("menuId") int menuId){
+        ResponseData responseData = new ResponseData();
+        responseData.setData(menuDAO.selectByPrimaryKey(menuId));
+        responseData.setCode(ResponseData.SUCCESS);
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE,value = "/menu/delete/{menuId}")
+    public ResponseData deleteMenu(@PathVariable("menuId") int menuId){
+
+        ResponseData responseData = new ResponseData();
+        menuDAO.deleteByPrimaryKey(menuId);
         responseData.setCode(ResponseData.SUCCESS);
         return responseData;
     }
@@ -202,7 +379,7 @@ public class SystemController {
         userDAO.updateByPrimaryKey(user4Update);
         ResponseData responseData = new ResponseData();
         responseData.setCode(ResponseData.SUCCESS);
-        responseData.setMessaage("角色设置成功");
+        responseData.setMessage("角色设置成功");
         return responseData;
     }
 
@@ -246,7 +423,7 @@ public class SystemController {
         });
         ResponseData responseData = new ResponseData();
         responseData.setCode(ResponseData.SUCCESS);
-        responseData.setMessaage("角色权限设置成功");
+        responseData.setMessage("角色权限设置成功");
         return responseData;
     }
 

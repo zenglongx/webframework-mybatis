@@ -37,7 +37,7 @@
             <type label="SET" quote="" sql="SET" length="1"/>
             <type label="Bit" quote="" sql="bit" length="0"/>
         </group>
-    </datatypes><table x="557" y="293" name="product">
+    </datatypes><table x="450" y="249" name="product">
     <row name="id" null="0" autoincrement="1">
         <datatype>INTEGER</datatype>
         <comment>商品ID</comment>
@@ -48,7 +48,7 @@
     </row>
     <row name="pic_small" null="1" autoincrement="0">
         <datatype>VARCHAR(255)</datatype>
-        <comment>商品图片-小</comment>
+        <default>NULL</default><comment>商品图片-小</comment>
     </row>
     <row name="pic_middle" null="1" autoincrement="0">
         <datatype>VARCHAR(255)</datatype>
@@ -67,4 +67,192 @@
     </key>
     <comment>商品</comment>
 </table>
+    <table x="639" y="200" name="user">
+        <row name="user_id" null="0" autoincrement="1">
+            <datatype>INTEGER</datatype>
+        </row>
+        <row name="username" null="1" autoincrement="0">
+            <datatype>INTEGER(30)</datatype>
+            <default>NULL</default></row>
+        <row name="password" null="1" autoincrement="0">
+            <datatype>INTEGER(20)</datatype>
+            <default>NULL</default></row>
+        <row name="real_name" null="1" autoincrement="0">
+            <datatype>INTEGER(50)</datatype>
+            <default>NULL</default></row>
+        <row name="mobile" null="1" autoincrement="0">
+            <datatype>INTEGER(13)</datatype>
+            <default>NULL</default></row>
+        <row name="phone" null="1" autoincrement="0">
+            <datatype>INTEGER(13)</datatype>
+            <default>NULL</default></row>
+        <row name="email" null="1" autoincrement="0">
+            <datatype>INTEGER(50)</datatype>
+            <default>NULL</default></row>
+        <row name="department" null="1" autoincrement="0">
+            <datatype>INTEGER(50)</datatype>
+            <default>NULL</default></row>
+        <row name="position" null="1" autoincrement="0">
+            <datatype>INTEGER(50)</datatype>
+            <default>NULL</default></row>
+        <row name="last_time" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="role_id" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="is_forbidden" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="is_delete" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="create_time" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="update_time" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <key type="PRIMARY" name="">
+            <part>user_id</part>
+        </key>
+    </table>
+    <table x="912" y="247" name="role">
+        <row name="role_id" null="0" autoincrement="1">
+            <datatype>INTEGER</datatype>
+        </row>
+        <row name="name" null="1" autoincrement="0">
+            <datatype>INTEGER(10)</datatype>
+            <default>NULL</default></row>
+        <row name="code" null="1" autoincrement="0">
+            <datatype>INTEGER(30)</datatype>
+            <default>NULL</default></row>
+        <row name="status" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="create_time" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="update_time" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="remark" null="1" autoincrement="0">
+            <datatype>INTEGER(255)</datatype>
+            <default>NULL</default></row>
+        <key type="PRIMARY" name="">
+            <part>role_id</part>
+        </key>
+    </table>
+    <table x="1142" y="257" name="permission">
+        <row name="permission_id" null="0" autoincrement="1">
+            <datatype>INTEGER</datatype>
+        </row>
+        <row name="name" null="1" autoincrement="0">
+            <datatype>INTEGER(30)</datatype>
+            <default>NULL</default></row>
+        <row name="type" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>1</default><comment>1=菜单；2=控制器; 3=操作</comment>
+        </row>
+        <row name="create_time" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="update_time" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="code" null="1" autoincrement="0">
+            <datatype>INTEGER(30)</datatype>
+            <default>NULL</default></row>
+        <key type="PRIMARY" name="">
+            <part>permission_id</part>
+        </key>
+    </table>
+    <table x="1354" y="229" name="sys_log">
+        <row name="log_id" null="0" autoincrement="1">
+            <datatype>INTEGER</datatype>
+        </row>
+        <row name="level" null="1" autoincrement="0">
+            <datatype>INTEGER(3)</datatype>
+            <default>NULL</default></row>
+        <row name="path" null="1" autoincrement="0">
+            <datatype>INTEGER(100)</datatype>
+            <default>NULL</default></row>
+        <row name="get" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="post" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="message" null="1" autoincrement="0">
+            <datatype>INTEGER(255)</datatype>
+            <default>NULL</default></row>
+        <row name="ip" null="1" autoincrement="0">
+            <datatype>INTEGER(100)</datatype>
+            <default>NULL</default></row>
+        <row name="user_agent" null="1" autoincrement="0">
+            <datatype>INTEGER(200)</datatype>
+            <default>NULL</default></row>
+        <row name="referer" null="1" autoincrement="0">
+            <datatype>INTEGER(100)</datatype>
+            <default>NULL</default></row>
+        <row name="user_id" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="username" null="1" autoincrement="0">
+            <datatype>INTEGER(100)</datatype>
+            <default>NULL</default></row>
+        <row name="create_time" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <key type="PRIMARY" name="">
+            <part>log_id</part>
+        </key>
+    </table>
+    <table x="1037" y="98" name="role_permission">
+        <row name="id" null="0" autoincrement="1">
+            <datatype>INTEGER</datatype>
+        </row>
+        <row name="role_id" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="permission_id" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <key type="PRIMARY" name="">
+            <part>id</part>
+        </key>
+        <comment>角色权限表</comment>
+    </table>
+    <table x="1082" y="535" name="menu">
+        <row name="menu_id" null="0" autoincrement="1">
+            <datatype>INTEGER</datatype>
+        </row>
+        <row name="parent_id" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="name" null="1" autoincrement="0">
+            <datatype>INTEGER(32)</datatype>
+            <default>NULL</default></row>
+        <row name="url" null="1" autoincrement="0">
+            <datatype>INTEGER(127)</datatype>
+            <default>NULL</default></row>
+        <row name="icon" null="1" autoincrement="0">
+            <datatype>INTEGER(64)</datatype>
+            <default>NULL</default></row>
+        <row name="sort" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>0</default></row>
+        <row name="status" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>1</default></row>
+        <row name="permission_id" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default></row>
+        <row name="permission_name" null="1" autoincrement="0">
+            <datatype>INTEGER(30)</datatype>
+            <default>NULL</default></row>
+        <key type="PRIMARY" name="">
+            <part>menu_id</part>
+        </key>
+    </table>
 </sql>
