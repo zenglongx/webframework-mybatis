@@ -1,5 +1,5 @@
 package com.xx.webframework.restapi.common;
 
 public abstract class ApiErrorCode {
-    public static final String NOT_FOUND_USER = "4001";
+    public static final String ACCOUNT_PASSWORD_ERROR = "4001";
 }

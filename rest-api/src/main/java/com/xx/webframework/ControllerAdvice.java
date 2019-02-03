@@ -1,12 +1,17 @@
 package com.xx.webframework;
 
+import com.xx.webframework.restapi.common.ApiErrorCode;
 import com.xx.webframework.restapi.common.ApiException;
 import com.xx.webframework.restapi.common.ResponseData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringEscapeUtils;
+import org.apache.shiro.authz.AuthorizationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.beans.PropertyEditorSupport;
@@ -40,11 +45,20 @@ public class ControllerAdvice {
         });
     }
 
-    /**
-     * 统一异常处理
-     * @param ex
-     * @return
-     */
+    @ExceptionHandler(AuthorizationException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseData handleException(AuthorizationException e, Model model) {
+        log.error("",e);
+        ResponseData responseData = new ResponseData();
+        responseData.setCode(ResponseData.ERROR);
+        responseData.setMessage("访问未授权");
+        return responseData;
+    }
+        /**
+         * 统一异常处理
+         * @param ex
+         * @return
+         */
     @ExceptionHandler(Exception.class)
     public ResponseData handle(Exception ex) {
         log.error("",ex);

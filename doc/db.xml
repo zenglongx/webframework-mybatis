@@ -3,63 +3,79 @@
 <!-- Active URL: http://ondras.zarovi.cz/sql/demo/?keyword=default -->
 <sql>
     <datatypes db="mysql">
+        <group color="rgb(238,238,170)" label="Integer">
+            <type label="TinyInt" quote="" sql="tinyint" length="0" re="INT" note="Integer data: 0 to 255" bytes="1"/>
+            <type label="SmallInt" quote="" sql="smallint" length="0" re="INT" note="Integer data: -32,768 to 32,767" bytes="2"/>
+            <type label="Int" quote="" sql="int" length="0" re="INT" note="Integer data: -2,147,483,648 to 2,147,483,647" bytes="4"/>
+            <type label="BigInt" quote="" sql="bigint" length="0" re="INT" note="Integer data: -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807" bytes="8"/>
+        </group>
+
+        <group color="rgb(238,238,170)" label="Monetary">
+            <type label="Money" quote="" sql="money" length="0" re="FLOAT" note="Integer data: -922,337,203,685,477.5808 to 922,337,203,685,477.5807" bytes="8"/>
+            <type label="SmallMoney" quote="" sql="smallmoney" length="0" re="FLOAT" note="-214,748.3648 to 214,748.3647" bytes="4"/>
+        </group>
+
         <group color="rgb(238,238,170)" label="Numeric">
-            <type label="Integer" quote="" sql="INTEGER" length="0"/>
-            <type label="TINYINT" quote="" sql="TINYINT" length="0"/>
-            <type label="SMALLINT" quote="" sql="SMALLINT" length="0"/>
-            <type label="MEDIUMINT" quote="" sql="MEDIUMINT" length="0"/>
-            <type label="INT" quote="" sql="INT" length="0"/>
-            <type label="BIGINT" quote="" sql="BIGINT" length="0"/>
-            <type label="Decimal" quote="" sql="DECIMAL" length="1" re="DEC"/>
-            <type label="Single precision" quote="" sql="FLOAT" length="0"/>
-            <type label="Double precision" quote="" sql="DOUBLE" length="0" re="DOUBLE"/>
+            <type label="Real" quote="" sql="real" length="0" re="FLOAT" note="Floating precision number data: -3.402823E+38 to 3.402823E+38" bytes="4"/>
+            <type label="Float" quote="" sql="float" length="0" re="FLOAT" note="Floating precision number data: -4.94E+324 to 4.94E+324" bytes="8"/>
+            <type label="Decimal" quote="" sql="decimal" length="1" re="DEC" note="Fixed precision and scale numeric data: -10^38 +1 to 10^38 -1 (decimal and numeric are synonyms)" bytes="n*"/>
+            <type label="Numeric" quote="" sql="numeric" length="1" re="DEC" note="Fixed precision and scale numeric data: -10^38 +1 to 10^38 -1 (decimal and numeric are synonyms)" bytes="n*"/>
         </group>
 
         <group color="rgb(255,200,200)" label="Character">
-            <type label="Char" quote="'" sql="CHAR" length="1"/>
-            <type label="Varchar" quote="'" sql="VARCHAR" length="1"/>
-            <type label="Text" quote="'" sql="MEDIUMTEXT" length="0" re="TEXT"/>
-            <type label="Binary" quote="'" sql="BINARY" length="1"/>
-            <type label="Varbinary" quote="'" sql="VARBINARY" length="1"/>
-            <type label="BLOB" quote="'" sql="BLOB" length="0" re="BLOB"/>
+            <type label="Char" quote="'" sql="char" length="0" note="Fixed-length character data with a maximum length of 8,000 characters" bytes="n"/>
+            <type label="Varchar" quote="'" sql="varchar" length="1" note="Variable-length data with a maximum of 8,000 characters" bytes="m &lt;= n"/>
+            <type label="Text" quote="'" sql="text" length="1" note="Variable-length data with a maximum length of 2,147,483,647 characters" bytes="&lt;= 2,147,483,647"/>
+            <type label="XML" quote="'" sql="xml" length="0" note="XML" bytes="n"/>
         </group>
+
+        <group color="rgb(255,200,200)" label="Unicode Character">
+            <type label="nChar" quote="'" sql="nchar" length="0" note="Fixed-length Unicode data with a maximum length of 4,000 characters" bytes="n"/>
+            <type label="nVarchar" quote="'" sql="nvarchar" length="1" note="Variable-length Unicode data with a maximum length of 4,000 characters" bytes="m &lt;= n"/>
+            <type label="nText" quote="'" sql="ntext" length="1" note="Variable-length Unicode data with a maximum length of 1,073,741,823 characters" bytes="&lt;= 2,147,483,647"/>
+        </group>
+
 
         <group color="rgb(200,255,200)" label="Date &amp; Time">
-            <type label="Date" quote="'" sql="DATE" length="0"/>
-            <type label="Time" quote="'" sql="TIME" length="0"/>
-            <type label="Datetime" quote="'" sql="DATETIME" length="0"/>
-            <type label="Year" quote="" sql="YEAR" length="0"/>
-            <type label="Timestamp" quote="'" sql="TIMESTAMP" length="0"/>
+            <type label="Datetime" quote="" sql="datetime" length="0" note="Jan 1, 1753 to Dec 31, 9999" bytes="8"/>
+            <type label="SmallDateTime" quote="" sql="smalldatetime" length="0" note="Jan 1, 1900 to Dec 31, 2079" bytes="4"/>
         </group>
 
-        <group color="rgb(200,200,255)" label="Miscellaneous">
-            <type label="ENUM" quote="" sql="ENUM" length="1"/>
-            <type label="SET" quote="" sql="SET" length="1"/>
-            <type label="Bit" quote="" sql="bit" length="0"/>
+        <group color="rgb(200,200,255)" label="Binary">
+            <type label="Binary" quote="'" sql="binary" length="0" note="Fixed-length binary data with a maximum length of 8,000 bytes" bytes="n"/>
+            <type label="Varbinary" quote="'" sql="varbinary" length="1" note="Variable-length binary data with a maximum length of 8,000 bytes" bytes="m &lt;= n"/>
+        </group>
+
+        <group color="rgb(200,220,255)" label="Miscellaneous">
+            <type label="Bit" quote="" sql="bit" length="0" note="Boolean: 1 or 0" bytes="1"/>
+            <type label="Image" quote="" sql="image" length="1" re="BLOB" note="Variable-length binary data with a maximum length of 2,147,483,647 bytes" bytes="0 to 2,147,483,647"/>
+            <type label="Timestamp" quote="" sql="timestamp" length="0" note="Locally unique binary number updated as a row gets updated" bytes="8"/>
+            <type label="SQL Variant" quote="" sql="sql_variant" length="1" note="Stores any datatype except text, ntext, image, timestamp" bytes=""/>
+            <type label="Uniqueidentifier" quote="" sql="uniqueidentifier" length="1" note="GUID" bytes="16"/>
         </group>
     </datatypes><table x="450" y="249" name="product">
     <row name="id" null="0" autoincrement="1">
-        <datatype>INTEGER</datatype>
+        <datatype>bigint</datatype>
         <comment>商品ID</comment>
     </row>
     <row name="name" null="0" autoincrement="0">
-        <datatype>VARCHAR(255)</datatype>
+        <datatype>varchar(255)</datatype>
         <comment>商品名称</comment>
     </row>
     <row name="pic_small" null="1" autoincrement="0">
-        <datatype>VARCHAR(255)</datatype>
+        <datatype>varchar(255)</datatype>
         <default>NULL</default><comment>商品图片-小</comment>
     </row>
     <row name="pic_middle" null="1" autoincrement="0">
-        <datatype>VARCHAR(255)</datatype>
+        <datatype>varchar(255)</datatype>
         <default>NULL</default><comment>商品图片-中</comment>
     </row>
     <row name="pic_large" null="1" autoincrement="0">
-        <datatype>VARCHAR(255)</datatype>
+        <datatype>varchar(255)</datatype>
         <default>NULL</default><comment>商品图片-大</comment>
     </row>
     <row name="description" null="1" autoincrement="0">
-        <datatype>MEDIUMTEXT</datatype>
+        <datatype>varchar</datatype>
         <default>NULL</default><comment>商品描述</comment>
     </row>
     <key type="PRIMARY" name="">
@@ -69,49 +85,49 @@
 </table>
     <table x="639" y="200" name="user">
         <row name="user_id" null="0" autoincrement="1">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
         </row>
         <row name="username" null="1" autoincrement="0">
-            <datatype>INTEGER(30)</datatype>
+            <datatype>varchar(30)</datatype>
             <default>NULL</default></row>
         <row name="password" null="1" autoincrement="0">
-            <datatype>INTEGER(20)</datatype>
+            <datatype>varchar(20)</datatype>
             <default>NULL</default></row>
         <row name="real_name" null="1" autoincrement="0">
-            <datatype>INTEGER(50)</datatype>
+            <datatype>varchar(50)</datatype>
             <default>NULL</default></row>
         <row name="mobile" null="1" autoincrement="0">
-            <datatype>INTEGER(13)</datatype>
+            <datatype>char(13)</datatype>
             <default>NULL</default></row>
         <row name="phone" null="1" autoincrement="0">
-            <datatype>INTEGER(13)</datatype>
+            <datatype>char(13)</datatype>
             <default>NULL</default></row>
         <row name="email" null="1" autoincrement="0">
-            <datatype>INTEGER(50)</datatype>
+            <datatype>varchar(50)</datatype>
             <default>NULL</default></row>
         <row name="department" null="1" autoincrement="0">
-            <datatype>INTEGER(50)</datatype>
+            <datatype>char(50)</datatype>
             <default>NULL</default></row>
         <row name="position" null="1" autoincrement="0">
-            <datatype>INTEGER(50)</datatype>
+            <datatype>char(50)</datatype>
             <default>NULL</default></row>
         <row name="last_time" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>datetime</datatype>
             <default>NULL</default></row>
         <row name="role_id" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
             <default>NULL</default></row>
         <row name="is_forbidden" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>tinyint</datatype>
             <default>NULL</default></row>
-        <row name="is_delete" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
-            <default>NULL</default></row>
+        <row name="status" null="0" autoincrement="0">
+            <datatype>tinyint</datatype>
+            <default>1</default></row>
         <row name="create_time" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>datetime</datatype>
             <default>NULL</default></row>
         <row name="update_time" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>datetime</datatype>
             <default>NULL</default></row>
         <key type="PRIMARY" name="">
             <part>user_id</part>
@@ -119,25 +135,25 @@
     </table>
     <table x="912" y="247" name="role">
         <row name="role_id" null="0" autoincrement="1">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
         </row>
         <row name="name" null="1" autoincrement="0">
-            <datatype>INTEGER(10)</datatype>
+            <datatype>char(10)</datatype>
             <default>NULL</default></row>
         <row name="code" null="1" autoincrement="0">
-            <datatype>INTEGER(30)</datatype>
+            <datatype>varchar(30)</datatype>
             <default>NULL</default></row>
         <row name="status" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>tinyint</datatype>
             <default>NULL</default></row>
         <row name="create_time" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>datetime</datatype>
             <default>NULL</default></row>
         <row name="update_time" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>datetime</datatype>
             <default>NULL</default></row>
         <row name="remark" null="1" autoincrement="0">
-            <datatype>INTEGER(255)</datatype>
+            <datatype>varchar(255)</datatype>
             <default>NULL</default></row>
         <key type="PRIMARY" name="">
             <part>role_id</part>
@@ -145,23 +161,23 @@
     </table>
     <table x="1142" y="257" name="permission">
         <row name="permission_id" null="0" autoincrement="1">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
         </row>
         <row name="name" null="1" autoincrement="0">
-            <datatype>INTEGER(30)</datatype>
+            <datatype>varchar(30)</datatype>
             <default>NULL</default></row>
         <row name="type" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>tinyint</datatype>
             <default>1</default><comment>1=菜单；2=控制器; 3=操作</comment>
         </row>
         <row name="create_time" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>datetime</datatype>
             <default>NULL</default></row>
         <row name="update_time" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>datetime</datatype>
             <default>NULL</default></row>
         <row name="code" null="1" autoincrement="0">
-            <datatype>INTEGER(30)</datatype>
+            <datatype>varchar(100)</datatype>
             <default>NULL</default></row>
         <key type="PRIMARY" name="">
             <part>permission_id</part>
@@ -169,40 +185,40 @@
     </table>
     <table x="1354" y="229" name="sys_log">
         <row name="log_id" null="0" autoincrement="1">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
         </row>
         <row name="level" null="1" autoincrement="0">
-            <datatype>INTEGER(3)</datatype>
+            <datatype>tinyint(3)</datatype>
             <default>NULL</default></row>
         <row name="path" null="1" autoincrement="0">
-            <datatype>INTEGER(100)</datatype>
+            <datatype>varchar(100)</datatype>
             <default>NULL</default></row>
         <row name="get" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>text</datatype>
             <default>NULL</default></row>
         <row name="post" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>text</datatype>
             <default>NULL</default></row>
         <row name="message" null="1" autoincrement="0">
-            <datatype>INTEGER(255)</datatype>
+            <datatype>varchar(255)</datatype>
             <default>NULL</default></row>
         <row name="ip" null="1" autoincrement="0">
-            <datatype>INTEGER(100)</datatype>
+            <datatype>varchar(100)</datatype>
             <default>NULL</default></row>
         <row name="user_agent" null="1" autoincrement="0">
-            <datatype>INTEGER(200)</datatype>
+            <datatype>varchar(200)</datatype>
             <default>NULL</default></row>
         <row name="referer" null="1" autoincrement="0">
-            <datatype>INTEGER(100)</datatype>
+            <datatype>varchar(100)</datatype>
             <default>NULL</default></row>
         <row name="user_id" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
             <default>NULL</default></row>
         <row name="username" null="1" autoincrement="0">
-            <datatype>INTEGER(100)</datatype>
+            <datatype>varchar(100)</datatype>
             <default>NULL</default></row>
         <row name="create_time" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>datetime</datatype>
             <default>NULL</default></row>
         <key type="PRIMARY" name="">
             <part>log_id</part>
@@ -210,13 +226,13 @@
     </table>
     <table x="1037" y="98" name="role_permission">
         <row name="id" null="0" autoincrement="1">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
         </row>
         <row name="role_id" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
             <default>NULL</default></row>
         <row name="permission_id" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
             <default>NULL</default></row>
         <key type="PRIMARY" name="">
             <part>id</part>
@@ -225,31 +241,31 @@
     </table>
     <table x="1082" y="535" name="menu">
         <row name="menu_id" null="0" autoincrement="1">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
         </row>
         <row name="parent_id" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
             <default>NULL</default></row>
         <row name="name" null="1" autoincrement="0">
-            <datatype>INTEGER(32)</datatype>
+            <datatype>varchar(32)</datatype>
             <default>NULL</default></row>
         <row name="url" null="1" autoincrement="0">
-            <datatype>INTEGER(127)</datatype>
+            <datatype>varchar(127)</datatype>
             <default>NULL</default></row>
         <row name="icon" null="1" autoincrement="0">
-            <datatype>INTEGER(64)</datatype>
+            <datatype>varchar(64)</datatype>
             <default>NULL</default></row>
         <row name="sort" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>tinyint</datatype>
             <default>0</default></row>
         <row name="status" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>tinyint</datatype>
             <default>1</default></row>
         <row name="permission_id" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>int</datatype>
             <default>NULL</default></row>
         <row name="permission_name" null="1" autoincrement="0">
-            <datatype>INTEGER(30)</datatype>
+            <datatype>varchar(30)</datatype>
             <default>NULL</default></row>
         <key type="PRIMARY" name="">
             <part>menu_id</part>

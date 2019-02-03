@@ -2,8 +2,9 @@ package com.xx.webframework.restapi;
 
 import com.github.pagehelper.Page;
 import com.google.common.collect.Maps;
+import com.xx.webframework.domain.User;
 import com.xx.webframework.restapi.common.ResponseData;
-import com.xx.webframework.restapi.common.UserNotFoundApiException;
+import com.xx.webframework.restapi.exception.AccountPasswordErrorApiException;
 import com.xx.webframework.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -46,7 +47,7 @@ public class HomeController {
 
     @RequestMapping(method = RequestMethod.GET,value = "/exception")
     public ResponseData getProductList2(){
-        throw new UserNotFoundApiException();
+        throw new AccountPasswordErrorApiException();
     }
 
     /**
@@ -106,11 +107,27 @@ public class HomeController {
         } catch (AuthenticationException e) {
             responseData.setCode(ResponseData.ERROR);
         }
+        User user = (User) subject.getPrincipal();
         Map<String,String> udata = Maps.newHashMap();
-        udata.put("uuid","uuid");
+        udata.put("uuid",user.getUserId().toString());
         udata.put("token","token");
-        udata.put("name","张三");
+        udata.put("name",user.getUsername());
+        responseData.setMessage("登录成功");
         responseData.setData(udata);
+        return responseData;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/logout")
+    public ResponseData doLogout(){
+        ResponseData responseData = new ResponseData();
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.logout();
+            responseData.setCode(ResponseData.SUCCESS);
+        } catch (AuthenticationException e) {
+            responseData.setCode(ResponseData.ERROR);
+        }
+        responseData.setMessage("登出成功");
         return responseData;
     }
 }

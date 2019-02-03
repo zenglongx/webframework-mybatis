@@ -13,30 +13,52 @@ import java.util.Map;
 public class MenuTree implements Serializable {
     private Integer id;
     private String name;
+    private String path;
+    private String icon;
     private List<MenuTree> children;
-    private MenuTree(Integer id, String name, List<MenuTree> children){
+    private MenuTree(Integer id, String name, String path, String icon, List<MenuTree> children){
         this.name = name;
         this.children = children;
         this.id = id;
+        this.path = path;
+        this.icon = icon;
     }
     public static MenuTree build(List<Menu> menus){
 
         Map<Integer,MenuTree> map = new HashMap<>();
 
+        int rootMenuId = 1;
         menus.forEach( menu -> {
-            map.put(menu.getMenuId(),new MenuTree(menu.getMenuId(),menu.getName(),new ArrayList<>()));
+            map.put(menu.getMenuId(),new MenuTree(menu.getMenuId(),menu.getName(),menu.getUrl(),menu.getIcon(),new ArrayList<>()));
         });
 
         menus.forEach( menu -> {
             if(menu.getParentId().intValue() == menu.getMenuId().intValue())
                 return;
             MenuTree parent = map.get(menu.getParentId());
-
-            parent.getChildren().add(map.get(menu.getMenuId()));
+            if(null != parent) {
+                parent.getChildren().add(map.get(menu.getMenuId()));
+            } // else 当父亲菜单不存在时，无需处理
         });
 
-        return map.get(0);
+        return map.get(rootMenuId);
 
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Integer getId() {

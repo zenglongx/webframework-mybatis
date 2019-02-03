@@ -1,7 +1,6 @@
 package com.xx.webframework.restapi.system;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Preconditions;
@@ -10,14 +9,17 @@ import com.xx.webframework.domain.*;
 import com.xx.webframework.mapper.*;
 import com.xx.webframework.restapi.common.ApiException;
 import com.xx.webframework.restapi.common.ResponseData;
-import com.xx.webframework.restapi.common.util.DateUtils;
+import com.xx.webframework.restapi.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -43,6 +45,7 @@ public class SystemController {
      *   user manager
      */
 
+    @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.GET,value = "/user/list")
     public ResponseData getUserList(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum ){
@@ -66,6 +69,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.GET,value = "/user/all")
     public ResponseData getAllUser(){
         ResponseData responseData = new ResponseData();
@@ -75,6 +79,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.GET,value = "/user/queryByRoleId")
     public ResponseData getUserListByRoleId(@RequestParam("roleId") Integer roleId){
         Preconditions.checkArgument(roleId != null && roleId >= 0);
@@ -87,6 +92,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.POST,value = "/user/updateUserRole",
             consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseData updateUserRole(@RequestBody JsonNode roleUserJson){
@@ -117,6 +123,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.GET,value = "/user/edit/{userId}")
     public ResponseData editUser(@PathVariable("userId") int userId){
         ResponseData responseData = new ResponseData();
@@ -125,6 +132,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.POST,value = "/user/save")
     public ResponseData saveUser(@RequestBody User user){
         ResponseData responseData = new ResponseData();
@@ -141,6 +149,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.GET,value = "/user/detail/{userId}")
     public ResponseData getUserInfo(@PathVariable("userId") int userId){
         ResponseData responseData = new ResponseData();
@@ -149,6 +158,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.DELETE,value = "/user/delete/{userId}")
     public ResponseData deleteUser(@PathVariable("userId") int userId){
         ResponseData responseData = new ResponseData();
@@ -163,6 +173,7 @@ public class SystemController {
      *
      *   role manager
      */
+    @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/role/list")
     public ResponseData getRoleList(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum ){
@@ -183,6 +194,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/role/all")
     public ResponseData getAllRole(){
         ResponseData responseData = new ResponseData();
@@ -192,6 +204,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:role")
     @RequestMapping(method = RequestMethod.GET,value = "/role/edit/{roleId}")
     public ResponseData editRole(@PathVariable("roleId") int roleId){
         ResponseData responseData = new ResponseData();
@@ -200,6 +213,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:role")
     @RequestMapping(method = RequestMethod.POST,value = "/role/save")
     public ResponseData saveRole(@RequestBody Role role){
         ResponseData responseData = new ResponseData();
@@ -215,6 +229,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/role/detail/{roleId}")
     public ResponseData getRoleInfo(@PathVariable("roleId") int roleId){
         ResponseData responseData = new ResponseData();
@@ -223,6 +238,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:role")
     @RequestMapping(method = RequestMethod.DELETE,value = "/role/delete/{roleId}")
     public ResponseData deleteRole(@PathVariable("roleId") int roleId){
         ResponseData responseData = new ResponseData();
@@ -236,7 +252,7 @@ public class SystemController {
      *
      *   permission manager
      */
-
+    @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/permission/all")
     public ResponseData getAllPermission(){
 
@@ -246,6 +262,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/permission/list")
     public ResponseData getPermissionList(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum ){
@@ -266,6 +283,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:permission")
     @RequestMapping(method = RequestMethod.GET,value = "/permission/edit/{permissionId}")
     public ResponseData editPermission(@PathVariable("permissionId") int permissionId){
 
@@ -275,6 +293,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:permission")
     @RequestMapping(method = RequestMethod.POST,value = "/permission/save")
     public ResponseData savePermission(@RequestBody Permission permission){
         ResponseData responseData = new ResponseData();
@@ -288,6 +307,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/permission/detail/{permissionId}")
     public ResponseData getPermissionInfo(@PathVariable("permissionId") int permissionId){
         ResponseData responseData = new ResponseData();
@@ -296,6 +316,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:permission")
     @RequestMapping(method = RequestMethod.DELETE,value = "/permission/delete/{permissionId}")
     public ResponseData deletePermission(@PathVariable("permissionId") int permissionId){
 
@@ -304,22 +325,32 @@ public class SystemController {
         responseData.setCode(ResponseData.SUCCESS);
         return responseData;
     }
+
     /**
      *
      *   menu manager
      */
-
+    @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/menu/tree")
     public ResponseData getMenuTree(){
 
         ResponseData responseData = new ResponseData();
         List<Menu> menus = menuDAO.selectByExample(null);
+        User loginUser = (User)SecurityUtils.getSubject().getPrincipal();
+        filterUnPermitedMenu(menus,loginUser);
         MenuTree menuTree = MenuTree.build(menus);
         responseData.setCode(ResponseData.SUCCESS);
         responseData.setData(menuTree);
         return responseData;
     }
 
+    private void filterUnPermitedMenu(List<Menu> menus, User loginUser) {
+        List<Permission> permissions = rolePermissionDAOSelf.selectRolePermissions(loginUser.getRoleId());
+        List<Integer> permissionIds = permissions.stream().map(permission -> permission.getPermissionId()).collect(Collectors.toList());
+        menus.removeIf(menu -> !permissionIds.contains(menu.getPermissionId()));
+    }
+
+    @RequiresPermissions(value = "menu:sm:menu")
     @RequestMapping(method = RequestMethod.GET,value = "/menu/edit/{menuId}")
     public ResponseData editMenu(@PathVariable("menuId") int menuId){
 
@@ -329,6 +360,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:menu")
     @RequestMapping(method = RequestMethod.POST,value = "/menu/save")
     public ResponseData saveMenu(@RequestBody Menu menu){
         ResponseData responseData = new ResponseData();
@@ -342,6 +374,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/menu/detail/{menuId}")
     public ResponseData getMenuInfo(@PathVariable("menuId") int menuId){
         ResponseData responseData = new ResponseData();
@@ -350,6 +383,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:menu")
     @RequestMapping(method = RequestMethod.DELETE,value = "/menu/delete/{menuId}")
     public ResponseData deleteMenu(@PathVariable("menuId") int menuId){
 
@@ -364,6 +398,7 @@ public class SystemController {
      *
      *   高级接口
      */
+    @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.POST, value = "/setUserRole")
     public ResponseData setUserRole(@RequestBody JsonNode jsonNode){
         log.info(jsonNode.toString());
@@ -383,7 +418,7 @@ public class SystemController {
         return responseData;
     }
 
-
+    @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.POST, value = "/getRolePermission")
     public ResponseData getRolePermission(@RequestBody JsonNode jsonNode){
         log.info(jsonNode.toString());
@@ -401,6 +436,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:role")
     @RequestMapping(method = RequestMethod.POST, value = "/setRolePermission")
     public ResponseData setRolePermission(@RequestBody JsonNode jsonNode){
         log.info(jsonNode.toString());
@@ -427,6 +463,7 @@ public class SystemController {
         return responseData;
     }
 
+    @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.POST, value = "/getUserPermission")
     public ResponseData getUserPermission(@RequestBody JsonNode jsonNode){
         log.info(jsonNode.toString());

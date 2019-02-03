@@ -1,4 +1,4 @@
-package com.xx.webframework.restapi.common.util;
+package com.xx.webframework.restapi.util;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

@@ -48,7 +48,7 @@ CREATE TABLE `permission` (
   `type` tinyint NULL DEFAULT 1 COMMENT '1=菜单；2=控制器; 3=操作',
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
-  `code` varchar(30) NULL DEFAULT NULL,
+  `code` varchar(100) NULL DEFAULT NULL,
   PRIMARY KEY (`permission_id`)
 );
 
@@ -56,23 +56,12 @@ CREATE TABLE `permission` (
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
-INSERT INTO `permission` VALUES ('1', '/index', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('2', '/user/list',1, null, null, '1');
-INSERT INTO `permission` VALUES ('3', '/user/edit', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('4', '/user/save', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('5', '/user/delete', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('6', '/user/detail', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('7', '/role/list', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('8', '/role/edit', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('9', '/role/save', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('10', '/role/delete', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('11', '/role/list', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('12', '/permission/list', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('13', '/permission/edit', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('14', '/permission/save', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('15', '/permission/delete', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('16', '/permission/detail', 1,null, null, '1');
-INSERT INTO `permission` VALUES ('17', '/dashboard', 1,null, null, '1');
+INSERT INTO `permission` VALUES ('1', '管理后台', 1,null, null, 'menu:sm:desktop');
+INSERT INTO `permission` VALUES ('2', '用户管理',1, null, null, 'menu:sm:user');
+INSERT INTO `permission` VALUES ('3', '权限管理', 1,null, null, 'menu:sm:permission');
+INSERT INTO `permission` VALUES ('4', '菜单管理', 1,null, null, 'menu:sm:menu');
+INSERT INTO `permission` VALUES ('5', '角色管理', 1,null, null, 'menu:sm:role');
+INSERT INTO `permission` VALUES ('6', '操作日志', 1,null, null, 'menu:sm:log');
 
 -- ----------------------------
 -- Table structure for `role`
@@ -92,8 +81,8 @@ CREATE TABLE `role` (
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES ('1', 'admin', 'admin', null, null, null, null);
-INSERT INTO `role` VALUES ('2', 'guest', 'admin', null, null, null, null);
+INSERT INTO `role` VALUES ('1', 'admin', 'admin', '1', null, null, null);
+INSERT INTO `role` VALUES ('2', 'guest', 'admin', '1', null, null, null);
 
 -- ----------------------------
 -- Table structure for `role_permission`
@@ -115,18 +104,7 @@ INSERT INTO `role_permission` VALUES ('3', '1', '3');
 INSERT INTO `role_permission` VALUES ('4', '1', '4');
 INSERT INTO `role_permission` VALUES ('5', '1', '5');
 INSERT INTO `role_permission` VALUES ('6', '1', '6');
-INSERT INTO `role_permission` VALUES ('7', '1', '7');
-INSERT INTO `role_permission` VALUES ('8', '1', '8');
-INSERT INTO `role_permission` VALUES ('9', '1', '9');
-INSERT INTO `role_permission` VALUES ('10', '1', '10');
-INSERT INTO `role_permission` VALUES ('11', '1', '11');
-INSERT INTO `role_permission` VALUES ('12', '1', '12');
-INSERT INTO `role_permission` VALUES ('13', '1', '13');
-INSERT INTO `role_permission` VALUES ('14', '1', '14');
-INSERT INTO `role_permission` VALUES ('15', '1', '15');
-INSERT INTO `role_permission` VALUES ('16', '1', '16');
-INSERT INTO `role_permission` VALUES ('17', '1', '17');
-INSERT INTO `role_permission` VALUES ('18', '2', '1');
+INSERT INTO `role_permission` VALUES ('7', '2', '1');
 
 -- ----------------------------
 -- Table structure for `sys_log`
@@ -157,29 +135,29 @@ CREATE TABLE `sys_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) NULL DEFAULT NULL,
-  `password` varchar(20) NULL DEFAULT NULL,
-  `real_name` varchar(50) NULL DEFAULT NULL,
-  `mobile` char(13) NULL DEFAULT NULL,
-  `phone` char(13) NULL DEFAULT NULL,
-  `email` varchar(50) NULL DEFAULT NULL,
-  `department` char(50) NULL DEFAULT NULL,
-  `position` char(50) NULL DEFAULT NULL,
-  `last_time` datetime NULL DEFAULT NULL,
-  `role_id` int NULL DEFAULT NULL,
-  `is_forbidden` tinyint NULL DEFAULT NULL,
-  `status` tinyint NULL DEFAULT NULL,
-  `create_time` datetime NULL DEFAULT NULL,
-  `update_time` datetime NULL DEFAULT NULL,
+  `user_id` INTEGER NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(30) NULL DEFAULT NULL,
+  `password` VARCHAR(20) NULL DEFAULT NULL,
+  `real_name` VARCHAR(50) NULL DEFAULT NULL,
+  `mobile` VARCHAR(13) NULL DEFAULT NULL,
+  `phone` VARCHAR(13) NULL DEFAULT NULL,
+  `email` VARCHAR(50) NULL DEFAULT NULL,
+  `department` VARCHAR(50) NULL DEFAULT NULL,
+  `position` VARCHAR(50) NULL DEFAULT NULL,
+  `last_time` DATETIME NULL DEFAULT NULL,
+  `role_id` INTEGER NULL DEFAULT NULL,
+  `is_forbidden` INTEGER NULL DEFAULT NULL,
+  `status` TINYINT NOT NULL DEFAULT 1,
+  `create_time` DATETIME NULL DEFAULT NULL,
+  `update_time` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 );
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'admin', 'admin', '管理员', null, null, null, null, null, null, '1', null, null, null, null);
-INSERT INTO `user` VALUES ('2', 'guest', 'guest', '访客', null, null, null, null, null, null, '2', null, null, null, null);
+INSERT INTO `user` VALUES ('1', 'admin', 'admin', '管理员', null, null, null, null, null, null, '1', null, '1', null, null);
+INSERT INTO `user` VALUES ('2', 'guest', 'guest', '访客', null, null, null, null, null, null, '2', null, '1', null, null);
 
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
@@ -195,4 +173,9 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`menu_id`)
 );
 
-INSERT INTO `menu` VALUES ('0', '0', '管理后台', null, null, 0, 1, null, null);
+INSERT INTO `menu` VALUES ('1', '1', '管理后台', null, 'desktop', 1, 1, 1, null);
+INSERT INTO `menu` VALUES ('2', '1', '用户管理', '/sm/user', 'user', 1, 1, 2, null);
+INSERT INTO `menu` VALUES ('3', '1', '权限管理', '/sm/permission', 'key', 2, 1, 3, null);
+INSERT INTO `menu` VALUES ('4', '1', '菜单管理', '/sm/menu', 'navicon', 3, 1, 4, null);
+INSERT INTO `menu` VALUES ('5', '1', '角色管理', '/sm/role', 'hand-pointer-o', 4, 1, 5, null);
+INSERT INTO `menu` VALUES ('6', '1', '操作日志', '/sm/log', 'search', 5, 1, 6, null);
