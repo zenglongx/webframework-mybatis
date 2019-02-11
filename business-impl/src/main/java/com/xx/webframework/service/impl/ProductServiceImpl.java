@@ -29,10 +29,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductPage(Page page) {
-//        ProductExample productExample = new ProductExample();
-//        PageHelper.startPage(page.getPageNum(),page.getPageSize());
-//        return productDAO.selectByExample(productExample);
+        ProductExample productExample = new ProductExample();
+        PageHelper.startPage(page.getPageNum(),page.getPageSize());
+        return productDAO.selectByExample(productExample);
 
-        throw new UserNotFoundException("用户未查找到");
+//        throw new UserNotFoundException("用户未查找到");
     }
 }

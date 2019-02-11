@@ -5,10 +5,10 @@ public enum StatusEnum {
     VALID(1,"有效"),
     UN_VALID(2,"无效");
 
-    private int code;
+    private int value;
 
-    public int getCode() {
-        return code;
+    public int getValue() {
+        return value;
     }
 
     public String getMessage() {
@@ -17,8 +17,8 @@ public enum StatusEnum {
 
     private String message;
 
-    StatusEnum(int code, String message) {
-        this.code = code;
+    StatusEnum(int value, String message) {
+        this.value = value;
         this.message = message;
     }
 

@@ -108,20 +108,15 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xx.webframework.domain.Permission">
-    insert into permission (permission_id, `name`, `type`, 
-      create_time, update_time, code
-      )
-    values (#{permissionId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR}
-      )
+  <insert id="insert" keyColumn="permission_id" keyProperty="permissionId" parameterType="com.xx.webframework.domain.Permission" useGeneratedKeys="true">
+    insert into permission (`name`, `type`, create_time, 
+      update_time, code)
+    values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.xx.webframework.domain.Permission">
+  <insert id="insertSelective" keyColumn="permission_id" keyProperty="permissionId" parameterType="com.xx.webframework.domain.Permission" useGeneratedKeys="true">
     insert into permission
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="permissionId != null">
-        permission_id,
-      </if>
       <if test="name != null">
         `name`,
       </if>
@@ -139,9 +134,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="permissionId != null">
-        #{permissionId,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>

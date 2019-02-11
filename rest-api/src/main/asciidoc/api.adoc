@@ -13,4 +13,112 @@ zenglongx
 operation::index[snippets='curl-request,http-response']
 
 == login
-operation::login[snippets='curl-request,http-response']
+operation::login[snippets='curl-request,request-parameters,http-response']
+
+
+[[resources-user]]
+== User
+
+  用户管理
+
+[[resources-user-list]]
+=== listUser
+operation::user-list[snippets='curl-request,request-parameters,http-response,response-fields']
+
+[[resources-user-list-all]]
+=== listAllUser
+operation::user-list-all[snippets='curl-request,http-response,response-fields']
+
+[[resources-user-query]]
+=== queryByRoleId
+operation::user-query-by-roleid[snippets='curl-request,request-parameters,http-response,response-fields']
+
+[[resources-user-update]]
+=== updateUserRole
+operation::user-set-role[snippets='curl-request,request-fields,http-response,response-fields']
+
+[[resources-user-save]]
+=== saveUser
+operation::user-save[snippets='curl-request,request-fields,request-parameters,http-response,response-fields']
+
+[[resources-user-detail]]
+=== detailUser
+operation::user-detail[snippets='curl-request,http-response,response-fields']
+
+[[resources-user-delete]]
+=== deleteUser
+operation::user-delete[snippets='curl-request,http-response,response-fields']
+
+
+[[resources-role]]
+== Role
+
+  角色管理
+
+[[resources-role-list]]
+=== listRole
+operation::role-list[snippets='curl-request,request-parameters,http-response,response-fields']
+
+[[resources-role-list-all]]
+=== listAllRole
+operation::role-list-all[snippets='curl-request,http-response,response-fields']
+
+[[resources-role-save]]
+=== saveRole
+operation::role-save[snippets='curl-request,request-fields,request-parameters,http-response,response-fields']
+
+[[resources-role-detail]]
+=== detailRole
+operation::role-detail[snippets='curl-request,http-response,response-fields']
+
+[[resources-role-delete]]
+=== deleteRole
+operation::role-delete[snippets='curl-request,http-response,response-fields']
+
+
+[[resources-permission]]
+== Permission
+
+  权限管理
+
+[[resources-permission-list]]
+=== listPermission
+operation::permission-list[snippets='curl-request,request-parameters,http-response,response-fields']
+
+[[resources-permission-list-all]]
+=== listAllPermission
+operation::permission-list-all[snippets='curl-request,http-response,response-fields']
+
+[[resources-permission-save]]
+=== savePermission
+operation::permission-save[snippets='curl-request,request-fields,request-parameters,http-response,response-fields']
+
+[[resources-permission-detail]]
+=== detailPermission
+operation::permission-detail[snippets='curl-request,http-response,response-fields']
+
+[[resources-permission-delete]]
+=== deletePermission
+operation::permission-delete[snippets='curl-request,http-response,response-fields']
+
+
+[[resources-menu]]
+== Menu
+
+  菜单管理
+
+[[resources-menu-true]]
+=== getMenuTree
+operation::menu-tree[snippets='curl-request,http-response,response-fields']
+
+[[resources-menu-save]]
+=== saveMenu
+operation::menu-save[snippets='curl-request,request-fields,request-parameters,http-response,response-fields']
+
+[[resources-menu-detail]]
+=== detailMenu
+operation::menu-detail[snippets='curl-request,http-response,response-fields']
+
+[[resources-menu-delete]]
+=== deleteMenu
+operation::menu-delete[snippets='curl-request,http-response,response-fields']

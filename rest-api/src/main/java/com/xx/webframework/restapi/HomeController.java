@@ -1,6 +1,7 @@
 package com.xx.webframework.restapi;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.xx.webframework.domain.User;
 import com.xx.webframework.restapi.common.ResponseData;
@@ -40,7 +41,7 @@ public class HomeController {
         responseData.setMessage("操作成功");
         int pageNum = 1;
         int pageSize = 10;
-        responseData.setData(productService.getProductPage(new Page(pageNum,pageSize)));
+        responseData.setData(new PageInfo<>(productService.getProductPage(new Page(pageNum,pageSize))));
 
         return responseData;
     }

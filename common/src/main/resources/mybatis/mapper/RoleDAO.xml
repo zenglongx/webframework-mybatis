@@ -109,20 +109,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xx.webframework.domain.Role">
-    insert into role (role_id, `name`, code, 
-      `status`, create_time, update_time, 
-      remark)
-    values (#{roleId,jdbcType=INTEGER}, #{name,jdbcType=CHAR}, #{code,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{remark,jdbcType=VARCHAR})
+  <insert id="insert" keyColumn="role_id" keyProperty="roleId" parameterType="com.xx.webframework.domain.Role" useGeneratedKeys="true">
+    insert into role (`name`, code, `status`, 
+      create_time, update_time, remark
+      )
+    values (#{name,jdbcType=CHAR}, #{code,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.xx.webframework.domain.Role">
+  <insert id="insertSelective" keyColumn="role_id" keyProperty="roleId" parameterType="com.xx.webframework.domain.Role" useGeneratedKeys="true">
     insert into role
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        role_id,
-      </if>
       <if test="name != null">
         `name`,
       </if>
@@ -143,9 +140,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=CHAR},
       </if>

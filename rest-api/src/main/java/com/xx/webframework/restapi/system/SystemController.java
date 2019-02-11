@@ -9,6 +9,7 @@ import com.xx.webframework.domain.*;
 import com.xx.webframework.mapper.*;
 import com.xx.webframework.restapi.common.ApiException;
 import com.xx.webframework.restapi.common.ResponseData;
+import com.xx.webframework.restapi.common.StatusEnum;
 import com.xx.webframework.restapi.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +48,7 @@ public class SystemController {
 
     @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.GET,value = "/user/list")
-    public ResponseData getUserList(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
+    public ResponseData listUser(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum ){
         ResponseData responseData = new ResponseData();
         List<User> users = null;
@@ -71,7 +72,7 @@ public class SystemController {
 
     @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.GET,value = "/user/all")
-    public ResponseData getAllUser(){
+    public ResponseData listAllUser(){
         ResponseData responseData = new ResponseData();
         List<User> users = userDAO.selectByExample(null);
         responseData.setData(users);
@@ -81,7 +82,7 @@ public class SystemController {
 
     @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.GET,value = "/user/queryByRoleId")
-    public ResponseData getUserListByRoleId(@RequestParam("roleId") Integer roleId){
+    public ResponseData listUserByRoleId(@RequestParam("roleId") Integer roleId){
         Preconditions.checkArgument(roleId != null && roleId >= 0);
         ResponseData responseData = new ResponseData();
         UserExample userExample = new UserExample();
@@ -123,19 +124,22 @@ public class SystemController {
         return responseData;
     }
 
-    @RequiresPermissions(value = "menu:sm:user")
-    @RequestMapping(method = RequestMethod.GET,value = "/user/edit/{userId}")
-    public ResponseData editUser(@PathVariable("userId") int userId){
-        ResponseData responseData = new ResponseData();
-        responseData.setData(userDAO.selectByPrimaryKey(userId));
-        responseData.setCode(ResponseData.SUCCESS);
-        return responseData;
-    }
+//    @RequiresPermissions(value = "menu:sm:user")
+//    @RequestMapping(method = RequestMethod.GET,value = "/user/edit/{userId}")
+//    public ResponseData editUser(@PathVariable("userId") int userId){
+//        ResponseData responseData = new ResponseData();
+//        responseData.setData(userDAO.selectByPrimaryKey(userId));
+//        responseData.setCode(ResponseData.SUCCESS);
+//        return responseData;
+//    }
 
     @RequiresPermissions(value = "menu:sm:user")
     @RequestMapping(method = RequestMethod.POST,value = "/user/save")
     public ResponseData saveUser(@RequestBody User user){
         ResponseData responseData = new ResponseData();
+        if(null == user.getStatus()){
+            user.setStatus((byte)StatusEnum.VALID.getValue());
+        }
         if(user.getUserId() == null || user.getUserId() == 0) {
             user.setCreateTime(DateUtils.now());
             userDAO.insert(user);
@@ -175,7 +179,7 @@ public class SystemController {
      */
     @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/role/list")
-    public ResponseData getRoleList(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
+    public ResponseData listRole(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum ){
         ResponseData responseData = new ResponseData();
         List<Role> roles = null;
@@ -196,7 +200,7 @@ public class SystemController {
 
     @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/role/all")
-    public ResponseData getAllRole(){
+    public ResponseData listAllRole(){
         ResponseData responseData = new ResponseData();
         List<Role> roles = roleDAO.selectByExample(null);
         responseData.setData(roles);
@@ -204,14 +208,14 @@ public class SystemController {
         return responseData;
     }
 
-    @RequiresPermissions(value = "menu:sm:role")
-    @RequestMapping(method = RequestMethod.GET,value = "/role/edit/{roleId}")
-    public ResponseData editRole(@PathVariable("roleId") int roleId){
-        ResponseData responseData = new ResponseData();
-        responseData.setData(roleDAO.selectByPrimaryKey(roleId));
-        responseData.setCode(ResponseData.SUCCESS);
-        return responseData;
-    }
+//    @RequiresPermissions(value = "menu:sm:role")
+//    @RequestMapping(method = RequestMethod.GET,value = "/role/edit/{roleId}")
+//    public ResponseData editRole(@PathVariable("roleId") int roleId){
+//        ResponseData responseData = new ResponseData();
+//        responseData.setData(roleDAO.selectByPrimaryKey(roleId));
+//        responseData.setCode(ResponseData.SUCCESS);
+//        return responseData;
+//    }
 
     @RequiresPermissions(value = "menu:sm:role")
     @RequestMapping(method = RequestMethod.POST,value = "/role/save")
@@ -254,7 +258,7 @@ public class SystemController {
      */
     @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/permission/all")
-    public ResponseData getAllPermission(){
+    public ResponseData listAllPermission(){
 
         ResponseData responseData = new ResponseData();
         responseData.setData(permissionDAO.selectByExample(null));
@@ -264,7 +268,7 @@ public class SystemController {
 
     @RequiresPermissions(value = "menu:sm:desktop")
     @RequestMapping(method = RequestMethod.GET,value = "/permission/list")
-    public ResponseData getPermissionList(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
+    public ResponseData listPermission(@RequestParam(value = "searchKey", defaultValue = "") String searchKey,
                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum ){
         ResponseData responseData = new ResponseData();
         List<Permission> permissions = null;
@@ -283,15 +287,15 @@ public class SystemController {
         return responseData;
     }
 
-    @RequiresPermissions(value = "menu:sm:permission")
-    @RequestMapping(method = RequestMethod.GET,value = "/permission/edit/{permissionId}")
-    public ResponseData editPermission(@PathVariable("permissionId") int permissionId){
-
-        ResponseData responseData = new ResponseData();
-        responseData.setData(permissionDAO.selectByPrimaryKey(permissionId));
-        responseData.setCode(ResponseData.SUCCESS);
-        return responseData;
-    }
+//    @RequiresPermissions(value = "menu:sm:permission")
+//    @RequestMapping(method = RequestMethod.GET,value = "/permission/edit/{permissionId}")
+//    public ResponseData editPermission(@PathVariable("permissionId") int permissionId){
+//
+//        ResponseData responseData = new ResponseData();
+//        responseData.setData(permissionDAO.selectByPrimaryKey(permissionId));
+//        responseData.setCode(ResponseData.SUCCESS);
+//        return responseData;
+//    }
 
     @RequiresPermissions(value = "menu:sm:permission")
     @RequestMapping(method = RequestMethod.POST,value = "/permission/save")
@@ -350,15 +354,15 @@ public class SystemController {
         menus.removeIf(menu -> !permissionIds.contains(menu.getPermissionId()));
     }
 
-    @RequiresPermissions(value = "menu:sm:menu")
-    @RequestMapping(method = RequestMethod.GET,value = "/menu/edit/{menuId}")
-    public ResponseData editMenu(@PathVariable("menuId") int menuId){
-
-        ResponseData responseData = new ResponseData();
-        responseData.setData(menuDAO.selectByPrimaryKey(menuId));
-        responseData.setCode(ResponseData.SUCCESS);
-        return responseData;
-    }
+//    @RequiresPermissions(value = "menu:sm:menu")
+//    @RequestMapping(method = RequestMethod.GET,value = "/menu/edit/{menuId}")
+//    public ResponseData editMenu(@PathVariable("menuId") int menuId){
+//
+//        ResponseData responseData = new ResponseData();
+//        responseData.setData(menuDAO.selectByPrimaryKey(menuId));
+//        responseData.setCode(ResponseData.SUCCESS);
+//        return responseData;
+//    }
 
     @RequiresPermissions(value = "menu:sm:menu")
     @RequestMapping(method = RequestMethod.POST,value = "/menu/save")

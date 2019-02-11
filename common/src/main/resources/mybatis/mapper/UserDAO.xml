@@ -118,26 +118,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xx.webframework.domain.User">
-    insert into user (user_id, username, `password`, 
-      real_name, mobile, phone, 
-      email, department, `position`, 
-      last_time, role_id, is_forbidden, 
-      `status`, create_time, update_time
-      )
-    values (#{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{realName,jdbcType=VARCHAR}, #{mobile,jdbcType=CHAR}, #{phone,jdbcType=CHAR}, 
-      #{email,jdbcType=VARCHAR}, #{department,jdbcType=CHAR}, #{position,jdbcType=CHAR}, 
-      #{lastTime,jdbcType=TIMESTAMP}, #{roleId,jdbcType=INTEGER}, #{isForbidden,jdbcType=TINYINT}, 
-      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="com.xx.webframework.domain.User" useGeneratedKeys="true">
+    insert into user (username, `password`, real_name, 
+      mobile, phone, email, department, 
+      `position`, last_time, role_id, 
+      is_forbidden, `status`, create_time, 
+      update_time)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=CHAR}, #{phone,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, #{department,jdbcType=CHAR}, 
+      #{position,jdbcType=CHAR}, #{lastTime,jdbcType=TIMESTAMP}, #{roleId,jdbcType=INTEGER}, 
+      #{isForbidden,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.xx.webframework.domain.User">
+  <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="com.xx.webframework.domain.User" useGeneratedKeys="true">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
-      </if>
       <if test="username != null">
         username,
       </if>
@@ -182,9 +177,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
       <if test="username != null">
         #{username,jdbcType=VARCHAR},
       </if>

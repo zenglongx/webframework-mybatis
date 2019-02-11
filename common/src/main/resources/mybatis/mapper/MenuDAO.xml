@@ -111,20 +111,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xx.webframework.domain.Menu">
-    insert into menu (menu_id, parent_id, `name`, 
-      url, icon, sort, `status`, 
+  <insert id="insert" keyColumn="menu_id" keyProperty="menuId" parameterType="com.xx.webframework.domain.Menu" useGeneratedKeys="true">
+    insert into menu (parent_id, `name`, url, 
+      icon, sort, `status`, 
       permission_id, permission_name)
-    values (#{menuId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{sort,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+    values (#{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{sort,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
       #{permissionId,jdbcType=INTEGER}, #{permissionName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.xx.webframework.domain.Menu">
+  <insert id="insertSelective" keyColumn="menu_id" keyProperty="menuId" parameterType="com.xx.webframework.domain.Menu" useGeneratedKeys="true">
     insert into menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="menuId != null">
-        menu_id,
-      </if>
       <if test="parentId != null">
         parent_id,
       </if>
@@ -151,9 +148,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="menuId != null">
-        #{menuId,jdbcType=INTEGER},
-      </if>
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
       </if>

@@ -58,7 +58,7 @@ public class UserRealm extends AuthorizingRealm {
         }
 
         // 账号锁定
-        if (user.getStatus() == StatusEnum.UN_VALID.getCode()) {
+        if (user.getStatus() == StatusEnum.UN_VALID.getValue()) {
             throw new AccountPasswordErrorApiException();
         }
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
